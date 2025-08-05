@@ -230,16 +230,8 @@ export const ROLE_PERMISSIONS = {
   // Super Admin: Full access to everything
   super_admin: "all", // Special keyword for all permissions
   
-  // Manager: Limited permissions that Super Admin can expand
-  manager: [
-    "auth.login",
-    "auth.logout",
-    "users.view",
-    "products.view",
-    "categories.view",
-    "orders.view",
-    "settings.view"
-  ],
+  // Manager: Full superadmin-equivalent access when permissions are assigned
+  manager: "all", // Same as super_admin - full access to all permissions
   
   // User: Complete customer permissions - access to all customer features
   user: [

@@ -134,12 +134,13 @@ export async function seedComprehensivePermissions() {
     }
     console.log(`✓ Assigned ${allPermissionIds.length} permissions to Super Admin`);
 
-    // Manager gets limited permissions
+    // Manager gets all permissions (same as Super Admin)
     const managerPermissions = ROLE_PERMISSIONS.manager;
     let assignedManagerCount = 0;
-    for (const permissionName of managerPermissions) {
-      const permissionId = permissionMap.get(permissionName);
-      if (permissionId) {
+    
+    if (managerPermissions === "all") {
+      // Assign all permissions to Manager role
+      for (const permissionId of allPermissionIds) {
         await db
           .insert(rolePermissions)
           .values({
@@ -148,6 +149,21 @@ export async function seedComprehensivePermissions() {
           })
           .onConflictDoNothing();
         assignedManagerCount++;
+      }
+    } else {
+      // Assign specific permissions
+      for (const permissionName of managerPermissions as string[]) {
+        const permissionId = permissionMap.get(permissionName);
+        if (permissionId) {
+          await db
+            .insert(rolePermissions)
+            .values({
+              roleId: managerRoleId,
+              permissionId: permissionId
+            })
+            .onConflictDoNothing();
+          assignedManagerCount++;
+        }
       }
     }
     console.log(`✓ Assigned ${assignedManagerCount} permissions to Manager role`);
