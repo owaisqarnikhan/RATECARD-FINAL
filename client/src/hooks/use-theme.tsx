@@ -17,11 +17,10 @@ export function useTheme() {
         headerTextColor: settings.headerTextColor || undefined,
         tabTextColor: settings.tabTextColor || undefined,
         tabActiveTextColor: settings.tabActiveTextColor || undefined,
-        tabBorderColor: settings.tabBorderColor || undefined,
-        tabHoverBorderColor: settings.tabHoverBorderColor || undefined,
+
       });
     }
-  }, [settings?.theme, settings?.headerTextColor, settings?.tabTextColor, settings?.tabActiveTextColor, settings?.tabBorderColor, settings?.tabHoverBorderColor]);
+  }, [settings?.theme, settings?.headerTextColor, settings?.tabTextColor, settings?.tabActiveTextColor]);
 
   return {
     currentTheme: settings?.theme || "default",

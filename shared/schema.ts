@@ -339,8 +339,7 @@ export const siteSettings = pgTable("site_settings", {
   headerTextColor: text("header_text_color").default("#64748b"),
   tabTextColor: text("tab_text_color").default("#2563eb"),
   tabActiveTextColor: text("tab_active_text_color").default("#2563eb"),
-  tabBorderColor: text("tab_border_color").default("#e2e8f0"),
-  tabHoverBorderColor: text("tab_hover_border_color").default("#2563eb"),
+
   footerDescription: text("footer_description"),
   contactEmail: text("contact_email"),
   contactPhone: text("contact_phone"),
