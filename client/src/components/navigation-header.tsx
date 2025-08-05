@@ -67,8 +67,9 @@ export function NavigationHeader() {
       { label: "Products", href: "/products", icon: Package },
     ];
 
-    // Only show "My Orders" for regular customers, not admin/manager
-    if (!user?.isAdmin && !hasManagerAccess()) {
+    // HARDCODED FIX: Only show "My Orders" for regular customers, not admin/manager
+    // Use role-based permission check instead of isAdmin flag
+    if (!user?.isSuperAdmin && !hasManagerAccess()) {
       baseItems.push({ label: "My Orders", href: "/orders", icon: Package });
     }
 
