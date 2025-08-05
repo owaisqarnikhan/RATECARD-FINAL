@@ -148,12 +148,12 @@ export function ImageSlider({
               }}
             />
             
-            {/* Image Text Overlay with Enhanced Styling */}
+            {/* Image Text Overlay with Enhanced Styling - Centered */}
             {(image.title || image.description) && (
-              <div className="absolute bottom-24 left-0 right-0 p-8 text-white z-20 text-center">
-                <div className="max-w-2xl mx-auto">
+              <div className="absolute inset-0 flex items-center justify-center p-8 text-white z-20">
+                <div className="max-w-3xl text-center">
                   {image.title && (
-                    <h3 className={`text-4xl font-bold mb-3 drop-shadow-lg transition-all duration-1000 ${
+                    <h3 className={`text-5xl font-bold mb-4 drop-shadow-2xl transition-all duration-1000 ${
                       index === currentIndex 
                         ? 'animate-fadeInUp opacity-100 transform translate-y-0' 
                         : 'opacity-0 transform translate-y-4'
@@ -162,9 +162,9 @@ export function ImageSlider({
                     </h3>
                   )}
                   {image.description && (
-                    <p className={`text-xl opacity-90 drop-shadow-md transition-all duration-1000 delay-300 ${
+                    <p className={`text-2xl opacity-95 drop-shadow-lg transition-all duration-1000 delay-300 leading-relaxed ${
                       index === currentIndex 
-                        ? 'animate-fadeInUp opacity-90 transform translate-y-0' 
+                        ? 'animate-fadeInUp opacity-95 transform translate-y-0' 
                         : 'opacity-0 transform translate-y-4'
                     }`}>
                       {image.description}
