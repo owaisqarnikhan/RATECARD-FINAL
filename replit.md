@@ -111,6 +111,7 @@ Preferred communication style: Simple, everyday language.
 - **Permissions Update**: Updated role permissions to only support Credimax and Cash on Delivery payments
 - **Schema Simplification**: Removed Stripe-related fields from user schema and order payment methods
 - **Email System Restoration**: Completely rebuilt comprehensive SMTP email functionality per user request
+- **Favicon Upload Functionality**: Added superadmin capability to upload and manage site favicon with real-time browser updates (August 5, 2025)
 - **Dynamic SMTP Configuration**: Added flexible SMTP configuration supporting Gmail, Outlook, Yahoo, and custom providers
 - **Email Service Architecture**: Created new email service with nodemailer integration and professional email templates
 - **Admin Email Interface**: Built comprehensive admin interface for SMTP configuration, testing, and status monitoring

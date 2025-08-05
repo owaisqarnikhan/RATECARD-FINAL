@@ -35,6 +35,7 @@ export function SiteSettings() {
     defaultValues: {
       siteName: settings?.siteName || "BAYG",
       logoUrl: settings?.logoUrl || "",
+      faviconUrl: settings?.faviconUrl || "",
       contactEmail: settings?.contactEmail || "",
       supportEmail: settings?.supportEmail || "",
       adminEmail: settings?.adminEmail || "",
@@ -91,6 +92,7 @@ export function SiteSettings() {
       form.reset({
         siteName: settings.siteName,
         logoUrl: settings.logoUrl || "",
+        faviconUrl: settings.faviconUrl || "",
         contactEmail: settings.contactEmail || "",
         supportEmail: settings.supportEmail || "",
         adminEmail: settings.adminEmail || "",
@@ -295,7 +297,72 @@ export function SiteSettings() {
     }
   };
 
+  const handleFaviconUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
+    // Validate file type for favicon
+    const validTypes = ['image/x-icon', 'image/vnd.microsoft.icon', 'image/png', 'image/gif', 'image/jpeg'];
+    if (!validTypes.includes(file.type)) {
+      toast({
+        title: "Error",
+        description: "Please upload a valid favicon file (.ico, .png, .gif, or .jpg)",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await fetch('/api/upload-image', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = await response.json();
+      form.setValue("faviconUrl", data.imageUrl);
+
+      // Update favicon immediately in the browser
+      updateFavicon(data.imageUrl);
+      
+      toast({
+        title: "Favicon Uploaded",
+        description: "Favicon uploaded successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Upload Failed",
+        description: "Failed to upload favicon",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // Function to update favicon in the browser
+  const updateFavicon = (faviconUrl: string) => {
+    const link = document.getElementById('favicon') as HTMLLinkElement;
+    if (link) {
+      link.href = faviconUrl;
+    } else {
+      // Create favicon link if it doesn't exist
+      const newLink = document.createElement('link');
+      newLink.id = 'favicon';
+      newLink.rel = 'icon';
+      newLink.type = 'image/x-icon';
+      newLink.href = faviconUrl;
+      document.head.appendChild(newLink);
+    }
+  };
 
   // Login Page Logo Upload Handler
   const handleLoginPageLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -390,6 +457,13 @@ export function SiteSettings() {
   React.useEffect(() => {
     checkSmtpStatus();
   }, []);
+
+  // Update favicon when settings load or change
+  React.useEffect(() => {
+    if (settings?.faviconUrl) {
+      updateFavicon(settings.faviconUrl);
+    }
+  }, [settings?.faviconUrl]);
 
   const onSubmit = (data: InsertSiteSettings) => {
     updateMutation.mutate(data);
@@ -510,6 +584,54 @@ export function SiteSettings() {
                       </FormItem>
                     )}
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="favicon-upload">Site Favicon</Label>
+                  <div className="flex items-center gap-4">
+                    {form.watch("faviconUrl") && (
+                      <img
+                        src={form.watch("faviconUrl") || ""}
+                        alt="Site Favicon"
+                        className="h-8 w-8 border rounded"
+                      />
+                    )}
+                    <div className="flex-1">
+                      <input
+                        id="favicon-upload"
+                        type="file"
+                        accept=".ico,.png,.gif,.jpg,.jpeg,image/*"
+                        onChange={handleFaviconUpload}
+                        className="hidden"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById("favicon-upload")?.click()}
+                        disabled={isUploading}
+                        className="flex items-center gap-2"
+                      >
+                        <Upload className="h-4 w-4" />
+                        {isUploading ? "Uploading..." : "Upload Favicon"}
+                      </Button>
+                    </div>
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="faviconUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Favicon URL (Alternative)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://example.com/favicon.ico" {...field} value={field.value || ""} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <p className="text-sm text-muted-foreground">
+                    Upload a favicon (.ico, .png, .gif, or .jpg) for your site. Recommended size: 16x16 or 32x32 pixels.
+                  </p>
                 </div>
               </TabsContent>
 

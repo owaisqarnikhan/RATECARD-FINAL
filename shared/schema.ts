@@ -334,6 +334,7 @@ export const siteSettings = pgTable("site_settings", {
   headerLogo: text("header_logo"),
   footerLogo: text("footer_logo"),
   logoUrl: text("logo_url"), // Main site logo
+  faviconUrl: text("favicon_url"), // Site favicon
   theme: text("theme").default("default"), // default, ocean, forest, sunset, midnight, coral, violet, emerald, ruby, sapphire, rose, bronze, slate, mint, lavender
   textColor: text("text_color").default("#1e293b"),
   headerTextColor: text("header_text_color").default("#64748b"),
