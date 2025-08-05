@@ -80,6 +80,7 @@ export function SiteSettings() {
       // Login Page Settings
       loginPageLogo: settings?.loginPageLogo || "",
       loginPageTitle: settings?.loginPageTitle || "BAYG Store",
+      loginPageAccessMessage: settings?.loginPageAccessMessage || "Need an account? Contact your store administrator for access credentials.",
     },
   });
 
@@ -120,12 +121,19 @@ export function SiteSettings() {
         socialLinkedin: settings.socialLinkedin || "",
         copyrightText: settings.copyrightText || "",
         additionalFooterText: settings.additionalFooterText || "",
-        // Email configuration - Microsoft 365 hardcoded, only fromName configurable
+        // SMTP Email Configuration
+        smtpEnabled: settings.smtpEnabled || false,
+        smtpHost: settings.smtpHost || "",
+        smtpPort: settings.smtpPort || 587,
+        smtpSecure: settings.smtpSecure || false,
+        smtpUser: settings.smtpUser || "",
+        smtpPassword: settings.smtpPassword || "",
         smtpFromName: settings.smtpFromName || "BAYG - Bahrain Asian Youth Games 2025",
-        emailEnabled: settings.emailEnabled || false,
+        smtpFromEmail: settings.smtpFromEmail || "",
         // Login Page Settings
         loginPageLogo: settings.loginPageLogo || "",
         loginPageTitle: settings.loginPageTitle || "InnovanceOrbit Store",
+        loginPageAccessMessage: settings.loginPageAccessMessage || "Need an account? Contact your store administrator for access credentials.",
         loginPageLogoWidth: settings.loginPageLogoWidth || 80,
         headerLogoHeight: settings.headerLogoHeight || 64,
       });
@@ -1091,6 +1099,25 @@ export function SiteSettings() {
                       <FormLabel>Login Page Title</FormLabel>
                       <FormControl>
                         <Input placeholder="InnovanceOrbit Store" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="loginPageAccessMessage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Login Page Access Message</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Need an account? Contact your store administrator for access credentials." 
+                          {...field} 
+                          value={field.value || ""} 
+                          rows={3}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

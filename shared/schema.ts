@@ -403,6 +403,7 @@ export const siteSettings = pgTable("site_settings", {
   // Login Page Specific Settings
   loginPageLogo: text("login_page_logo"),
   loginPageTitle: text("login_page_title").default("InnovanceOrbit Store"),
+  loginPageAccessMessage: text("login_page_access_message").default("Need an account? Contact your store administrator for access credentials."),
   
   createdAt: timestamp("created_at").default(sql`now()`),
   updatedAt: timestamp("updated_at").default(sql`now()`),

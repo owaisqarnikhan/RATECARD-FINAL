@@ -128,7 +128,7 @@ export default function AuthPage() {
               
               <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
                 <p className="text-sm text-amber-800 dark:text-amber-200">
-                  <strong>Need an account?</strong> Contact your store administrator for access credentials.
+                  {settings?.loginPageAccessMessage || "Need an account? Contact your store administrator for access credentials."}
                 </p>
               </div>
             </CardContent>
