@@ -282,7 +282,14 @@ export default function OrdersPage() {
                             </p>
                             <div className="flex items-center space-x-4 text-sm text-slate-600">
                               <span>Qty: {item.quantity}</span>
-                              <span>${item.price}</span>
+                              <span>${(() => {
+                                // Use item price if available, otherwise get contextual price
+                                if (item.price) return item.price;
+                                const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+                                  ? item.product.rentalPrice 
+                                  : item.product.price;
+                                return parseFloat(displayPrice).toFixed(2);
+                              })()}</span>
                               {item.product.unitOfMeasure && (
                                 <span>per {item.product.unitOfMeasure}</span>
                               )}

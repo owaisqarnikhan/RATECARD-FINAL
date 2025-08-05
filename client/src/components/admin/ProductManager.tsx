@@ -470,7 +470,7 @@ export function ProductManager() {
                   <p className="text-sm text-muted-foreground mt-1">
                     {(product as any).productType === "rental" ? (
                       <>
-                        Rental Price: ${(product as any).rentalPrice || "0.00"} / {(product as any).rentalPeriod || "period"} | Regular Price: ${product.price}
+                        Active Price: ${(product as any).rentalPrice || product.price} / {(product as any).rentalPeriod || "period"} | Sale Price: ${product.price}
                       </>
                     ) : (
                       <>

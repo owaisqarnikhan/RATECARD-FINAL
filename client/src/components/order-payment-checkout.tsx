@@ -201,10 +201,22 @@ export function OrderPaymentCheckout({ orderId }: OrderPaymentCheckoutProps) {
                           </div>
                           <div className="text-right">
                             <div className="text-sm text-slate-600 mb-1">
-                              ${parseFloat(item.price).toFixed(2)} × {item.quantity}
+                              ${(() => {
+                                // Use item price if available, otherwise get contextual price
+                                if (item.price) return parseFloat(item.price).toFixed(2);
+                                const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+                                  ? item.product.rentalPrice 
+                                  : item.product.price;
+                                return parseFloat(displayPrice).toFixed(2);
+                              })()} × {item.quantity}
                             </div>
                             <p className="font-medium text-slate-900">
-                              ${item.totalPrice || (parseFloat(item.price) * item.quantity).toFixed(2)}
+                              ${item.totalPrice || (() => {
+                                const unitPrice = item.price || (item.product.productType === "rental" && item.product.rentalPrice 
+                                  ? item.product.rentalPrice 
+                                  : item.product.price);
+                                return (parseFloat(unitPrice) * item.quantity).toFixed(2);
+                              })()}
                             </p>
                           </div>
                         </div>

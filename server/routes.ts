@@ -348,7 +348,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
         // Calculate rental days and pricing
         const rentalDays = Math.ceil((parsedEndDate.getTime() - parsedStartDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-        const dailyRate = parseFloat(product.rentalPrice || "0");
+        const dailyRate = parseFloat(product.rentalPrice || product.price);
         unitPrice = dailyRate.toFixed(2);
         totalPrice = (dailyRate * rentalDays * quantity).toFixed(2);
       } else {
@@ -482,8 +482,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Calculate totals with 10% VAT - use totalPrice from cart items if available, otherwise fallback to product price
       const subtotal = cartItems.reduce(
         (sum, item) => {
-          // Use calculated totalPrice from cart if available (for rentals), otherwise use product price
-          const itemTotal = item.totalPrice ? parseFloat(item.totalPrice) : parseFloat(item.product.price) * item.quantity;
+          // Use calculated totalPrice from cart if available (for rentals), otherwise use contextual price
+          const itemTotal = item.totalPrice ? parseFloat(item.totalPrice) : (() => {
+            const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+              ? item.product.rentalPrice 
+              : item.product.price;
+            return parseFloat(displayPrice) * item.quantity;
+          })();
           return sum + itemTotal;
         },
         0
@@ -520,8 +525,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           orderId: order.id,
           productId: cartItem.productId,
           quantity: cartItem.quantity,
-          price: cartItem.unitPrice || cartItem.product.price, // Use calculated unit price or fallback
-          totalPrice: cartItem.totalPrice || (parseFloat(cartItem.product.price) * cartItem.quantity).toFixed(2),
+          price: cartItem.unitPrice || (() => {
+            const displayPrice = cartItem.product.productType === "rental" && cartItem.product.rentalPrice 
+              ? cartItem.product.rentalPrice 
+              : cartItem.product.price;
+            return displayPrice;
+          })(),
+          totalPrice: cartItem.totalPrice || (() => {
+            const displayPrice = cartItem.product.productType === "rental" && cartItem.product.rentalPrice 
+              ? cartItem.product.rentalPrice 
+              : cartItem.product.price;
+            return (parseFloat(displayPrice) * cartItem.quantity).toFixed(2);
+          })(),
           rentalStartDate: cartItem.rentalStartDate,
           rentalEndDate: cartItem.rentalEndDate,
           rentalDays: rentalDays,
@@ -547,7 +562,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
             items: cartItems.map(item => ({
               productName: item.product.name,
               quantity: item.quantity,
-              price: (parseFloat(item.product.price) * item.quantity).toFixed(2)
+              price: (() => {
+                const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+                  ? item.product.rentalPrice 
+                  : item.product.price;
+                return (parseFloat(displayPrice) * item.quantity).toFixed(2);
+              })()
             }))
           });
         } catch (emailError) {
@@ -562,8 +582,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const emailItems = cartItems.map(item => ({
             productName: item.product.name,
             quantity: item.quantity,
-            price: item.unitPrice || item.product.price,
-            totalPrice: item.totalPrice || (parseFloat(item.product.price) * item.quantity).toFixed(2),
+            price: item.unitPrice || (() => {
+              const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+                ? item.product.rentalPrice 
+                : item.product.price;
+              return displayPrice;
+            })(),
+            totalPrice: item.totalPrice || (() => {
+              const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+                ? item.product.rentalPrice 
+                : item.product.price;
+              return (parseFloat(displayPrice) * item.quantity).toFixed(2);
+            })(),
             rentalStartDate: item.rentalStartDate ? new Date(item.rentalStartDate).toLocaleDateString() : undefined,
             rentalEndDate: item.rentalEndDate ? new Date(item.rentalEndDate).toLocaleDateString() : undefined,
             rentalDays: item.rentalStartDate && item.rentalEndDate ? 

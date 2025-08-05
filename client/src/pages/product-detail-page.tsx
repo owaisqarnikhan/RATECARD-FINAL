@@ -341,21 +341,22 @@ export default function ProductDetailPage() {
               <CardContent className="p-6">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-semibold text-gray-700">Sale Price:</span>
-                    <span className="text-3xl font-bold text-primary">${product.price}</span>
-                  </div>
-                  
-                  {product.productType === "rental" && product.rentalPrice && (
-                    <div className="flex items-center justify-between border-t pt-4">
-                      <span className="text-xl font-semibold text-gray-700">Rental Price:</span>
-                      <div className="text-right">
-                        <span className="text-2xl font-bold text-blue-600">${product.rentalPrice}</span>
-                        {product.rentalPeriod && (
-                          <p className="text-sm text-gray-600">per {product.rentalPeriod}</p>
-                        )}
-                      </div>
+                    <span className="text-xl font-semibold text-gray-700">
+                      {product.productType === "rental" ? "Rental Price:" : "Sale Price:"}
+                    </span>
+                    <div className="text-right">
+                      <span className="text-3xl font-bold text-primary">
+                        ${parseFloat(
+                          product.productType === "rental" && product.rentalPrice 
+                            ? product.rentalPrice 
+                            : product.price
+                        ).toFixed(2)}
+                      </span>
+                      {product.productType === "rental" && product.rentalPeriod && (
+                        <p className="text-sm text-gray-600">per {product.rentalPeriod}</p>
+                      )}
                     </div>
-                  )}
+                  </div>
                   
                   {/* VAT Notice */}
                   <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800">
@@ -583,7 +584,10 @@ export default function ProductDetailPage() {
                           if (product.productType === "rental" && startDate && endDate && !dateError) {
                             return calculateRentalCost().totalCost.toFixed(2);
                           }
-                          return (parseFloat(product.price) * quantity).toFixed(2);
+                          const displayPrice = product.productType === "rental" && product.rentalPrice 
+                            ? product.rentalPrice 
+                            : product.price;
+                          return (parseFloat(displayPrice) * quantity).toFixed(2);
                         })()}
                       </span>
                       <Button 
