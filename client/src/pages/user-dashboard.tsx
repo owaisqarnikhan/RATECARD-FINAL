@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLocation } from "wouter";
+import { RoleDashboardRouter } from "@/components/RoleDashboardRouter";
 import { 
   ShoppingCart, 
   Package, 
@@ -21,6 +22,10 @@ import {
 
 export default function UserDashboard() {
   const [, setLocation] = useLocation();
+
+  // Role-based dashboard routing - this will redirect admins/managers to /admin
+  // and allow regular users to continue to this dashboard
+  const dashboardRouter = <RoleDashboardRouter />;
 
   // Fetch user data
   const { data: user, isLoading: userLoading } = useQuery({
@@ -65,7 +70,9 @@ export default function UserDashboard() {
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
+    <>
+      {dashboardRouter}
+      <div className="container mx-auto p-4 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -364,6 +371,7 @@ export default function UserDashboard() {
           )}
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </>
   );
 }
