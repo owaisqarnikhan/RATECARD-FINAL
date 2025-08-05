@@ -396,6 +396,8 @@ export function SiteSettings() {
   }, []);
 
   const onSubmit = (data: InsertSiteSettings) => {
+    console.log("Form submission data:", data);
+    console.log("TabHoverBorderColor value:", data.tabHoverBorderColor);
     updateMutation.mutate(data);
   };
 
@@ -710,7 +712,7 @@ export function SiteSettings() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Tab Border Color</FormLabel>
-                          <Select onValueChange={field.onChange} value={field.value || "#e2e8f0"}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select tab border color" />
@@ -747,7 +749,7 @@ export function SiteSettings() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Tab Hover Border Color</FormLabel>
-                          <Select onValueChange={field.onChange} value={field.value || "#2563eb"}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select hover border color" />
