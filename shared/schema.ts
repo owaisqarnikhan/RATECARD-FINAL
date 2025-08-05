@@ -356,6 +356,9 @@ export const siteSettings = pgTable("site_settings", {
   paymentMethodsImageWidth: integer("payment_methods_image_width").default(250),
   loginPageLogoWidth: integer("login_page_logo_width").default(80),
   headerLogoHeight: integer("header_logo_height").default(64), // Height in pixels for header logo
+  loginPageHeading1: text("login_page_heading_1").default("Welcome Back"),
+  loginPageHeading2: text("login_page_heading_2").default("Sign in to your account"),
+  loginPageHeading3: text("login_page_heading_3").default("Access your dashboard"),
   socialFacebook: text("social_facebook"),
   socialTwitter: text("social_twitter"),
   socialInstagram: text("social_instagram"),

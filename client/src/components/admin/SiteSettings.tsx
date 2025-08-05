@@ -84,6 +84,9 @@ export function SiteSettings() {
       loginPageLogo: settings?.loginPageLogo || "",
       loginPageTitle: settings?.loginPageTitle || "BAYG Store",
       loginPageAccessMessage: settings?.loginPageAccessMessage || "Need an account? Contact your store administrator for access credentials.",
+      loginPageHeading1: settings?.loginPageHeading1 || "Welcome Back",
+      loginPageHeading2: settings?.loginPageHeading2 || "Sign in to your account",
+      loginPageHeading3: settings?.loginPageHeading3 || "Access your dashboard",
     },
   });
 
@@ -139,6 +142,9 @@ export function SiteSettings() {
         loginPageLogo: settings.loginPageLogo || "",
         loginPageTitle: settings.loginPageTitle || "InnovanceOrbit Store",
         loginPageAccessMessage: settings.loginPageAccessMessage || "Need an account? Contact your store administrator for access credentials.",
+        loginPageHeading1: settings.loginPageHeading1 || "Welcome Back",
+        loginPageHeading2: settings.loginPageHeading2 || "Sign in to your account",
+        loginPageHeading3: settings.loginPageHeading3 || "Access your dashboard",
         loginPageLogoWidth: settings.loginPageLogoWidth || 80,
         headerLogoHeight: settings.headerLogoHeight || 64,
       });
@@ -1244,6 +1250,48 @@ export function SiteSettings() {
               </TabsContent>
 
               <TabsContent value="login" className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="loginPageHeading1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Login Page Heading 1 (Main)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Welcome Back" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="loginPageHeading2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Login Page Heading 2 (Sub)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Sign in to your account" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="loginPageHeading3"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Login Page Heading 3 (Description)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Access your dashboard" {...field} value={field.value || ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={form.control}
                   name="loginPageTitle"

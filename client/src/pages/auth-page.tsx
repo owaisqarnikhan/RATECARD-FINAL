@@ -60,10 +60,24 @@ export default function AuthPage() {
                 }}
               />
             )}
-            {settings?.loginPageTitle && settings.loginPageTitle.trim() !== "" && (
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-                {settings.loginPageTitle}
+            
+            {/* Three customizable headings */}
+            {settings?.loginPageHeading1 && settings.loginPageHeading1.trim() !== "" && (
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                {settings.loginPageHeading1}
               </h1>
+            )}
+            
+            {settings?.loginPageHeading2 && settings.loginPageHeading2.trim() !== "" && (
+              <h2 className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-2">
+                {settings.loginPageHeading2}
+              </h2>
+            )}
+            
+            {settings?.loginPageHeading3 && settings.loginPageHeading3.trim() !== "" && (
+              <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400">
+                {settings.loginPageHeading3}
+              </p>
             )}
           </div>
 
