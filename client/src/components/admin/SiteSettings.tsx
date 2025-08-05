@@ -509,10 +509,16 @@ export function SiteSettings() {
                   name="siteName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Site Name</FormLabel>
+                      <FormLabel className="flex items-center gap-2">
+                        <Monitor className="h-4 w-4" />
+                        Site Name & Browser Tab Title
+                      </FormLabel>
                       <FormControl>
-                        <Input placeholder="InnovanceOrbit" {...field} />
+                        <Input placeholder="BAYG" {...field} />
                       </FormControl>
+                      <div className="text-sm text-muted-foreground">
+                        This will appear as the browser tab title and site name throughout the application
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}

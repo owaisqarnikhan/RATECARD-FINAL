@@ -1,6 +1,6 @@
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "./hooks/use-auth";
@@ -23,6 +23,23 @@ import Footer from "@/components/footer";
 import { NavigationHeader } from "@/components/navigation-header";
 import { useTheme } from "./hooks/use-theme";
 import { useLocation } from "wouter";
+import { useEffect } from "react";
+import type { SiteSettings } from "@shared/schema";
+
+// Component to handle dynamic title updates based on site settings
+function DynamicTitleUpdater() {
+  const { data: settings } = useQuery<SiteSettings>({
+    queryKey: ["/api/settings"],
+  });
+
+  useEffect(() => {
+    if (settings?.siteName) {
+      document.title = settings.siteName;
+    }
+  }, [settings?.siteName]);
+
+  return null;
+}
 
 function ThemeWrapper({ children }: { children: React.ReactNode }) {
   useTheme(); // This will automatically apply the theme from settings
@@ -57,6 +74,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <DynamicTitleUpdater />
       {!isAuthPage && <NavigationHeader />}
       <div className="flex-1">
         <Router />
