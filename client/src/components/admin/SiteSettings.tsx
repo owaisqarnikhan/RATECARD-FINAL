@@ -1317,7 +1317,7 @@ export function SiteSettings() {
                         </div>
                         <FormControl>
                           <Switch
-                            checked={field.value}
+                            checked={field.value || false}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
@@ -1333,7 +1333,7 @@ export function SiteSettings() {
                         <FormItem>
                           <FormLabel>SMTP Host</FormLabel>
                           <FormControl>
-                            <Input placeholder="smtp.gmail.com" {...field} />
+                            <Input placeholder="smtp.gmail.com" {...field} value={field.value || ""} />
                           </FormControl>
                           <p className="text-xs text-muted-foreground">
                             Your email provider's SMTP server
@@ -1380,7 +1380,7 @@ export function SiteSettings() {
                         </div>
                         <FormControl>
                           <Switch
-                            checked={field.value}
+                            checked={field.value || false}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
@@ -1396,7 +1396,7 @@ export function SiteSettings() {
                         <FormItem>
                           <FormLabel>SMTP Username</FormLabel>
                           <FormControl>
-                            <Input placeholder="your-email@gmail.com" {...field} />
+                            <Input placeholder="your-email@gmail.com" {...field} value={field.value || ""} />
                           </FormControl>
                           <p className="text-xs text-muted-foreground">
                             Your email address or username
@@ -1417,6 +1417,7 @@ export function SiteSettings() {
                               type="password" 
                               placeholder="App password or email password" 
                               {...field} 
+                              value={field.value || ""}
                             />
                           </FormControl>
                           <p className="text-xs text-muted-foreground">
@@ -1436,7 +1437,7 @@ export function SiteSettings() {
                         <FormItem>
                           <FormLabel>From Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="BAYG - Bahrain Asian Youth Games 2025" {...field} />
+                            <Input placeholder="BAYG - Bahrain Asian Youth Games 2025" {...field} value={field.value || ""} />
                           </FormControl>
                           <p className="text-xs text-muted-foreground">
                             Display name for outgoing emails
@@ -1453,7 +1454,7 @@ export function SiteSettings() {
                         <FormItem>
                           <FormLabel>From Email</FormLabel>
                           <FormControl>
-                            <Input placeholder="noreply@yourdomain.com" {...field} />
+                            <Input placeholder="noreply@yourdomain.com" {...field} value={field.value || ""} />
                           </FormControl>
                           <p className="text-xs text-muted-foreground">
                             Email address for outgoing emails
