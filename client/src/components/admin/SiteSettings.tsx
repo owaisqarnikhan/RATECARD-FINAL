@@ -1255,7 +1255,7 @@ export function SiteSettings() {
                   name="loginPageHeading1"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Login Page Heading 1 (Main)</FormLabel>
+                      <FormLabel>Login Page Heading 1</FormLabel>
                       <FormControl>
                         <Input placeholder="Welcome Back" {...field} value={field.value || ""} />
                       </FormControl>
@@ -1269,7 +1269,7 @@ export function SiteSettings() {
                   name="loginPageHeading2"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Login Page Heading 2 (Sub)</FormLabel>
+                      <FormLabel>Login Page Heading 2</FormLabel>
                       <FormControl>
                         <Input placeholder="Sign in to your account" {...field} value={field.value || ""} />
                       </FormControl>
@@ -1283,7 +1283,7 @@ export function SiteSettings() {
                   name="loginPageHeading3"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Login Page Heading 3 (Description)</FormLabel>
+                      <FormLabel>Login Page Heading 3</FormLabel>
                       <FormControl>
                         <Input placeholder="Access your dashboard" {...field} value={field.value || ""} />
                       </FormControl>
