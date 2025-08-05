@@ -53,6 +53,8 @@ export function SiteSettings() {
       headerTextColor: settings?.headerTextColor || "#64748b",
       tabTextColor: settings?.tabTextColor || "#2563eb", 
       tabActiveTextColor: settings?.tabActiveTextColor || "#2563eb",
+      tabBorderColor: settings?.tabBorderColor || "#e2e8f0",
+      tabHoverBorderColor: settings?.tabHoverBorderColor || "#2563eb",
       orderConfirmationTemplate: settings?.orderConfirmationTemplate || "",
       footerDescription: settings?.footerDescription || "",
       footerBackgroundUrl: settings?.footerBackgroundUrl || "/uploads/footer-background.png",
@@ -689,6 +691,88 @@ export function SiteSettings() {
                       )}
                     />
                   </div>
+                </div>
+
+                <div className="border-t pt-4">
+                  <h3 className="text-sm font-medium mb-4">Tab Border Colors</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="tabBorderColor"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Tab Border Color</FormLabel>
+                          <Select onValueChange={field.onChange} value={field.value || "#e2e8f0"}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select tab border color" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="transparent">Transparent</SelectItem>
+                              <SelectItem value="#ffffff">White</SelectItem>
+                              <SelectItem value="#f8fafc">Off White</SelectItem>
+                              <SelectItem value="#e2e8f0">Light Gray</SelectItem>
+                              <SelectItem value="#94a3b8">Medium Gray</SelectItem>
+                              <SelectItem value="#64748b">Dark Gray</SelectItem>
+                              <SelectItem value="#475569">Darker Gray</SelectItem>
+                              <SelectItem value="#334155">Very Dark Gray</SelectItem>
+                              <SelectItem value="#1e293b">Almost Black</SelectItem>
+                              <SelectItem value="#000000">Black</SelectItem>
+                              <SelectItem value="#2563eb">Blue</SelectItem>
+                              <SelectItem value="#1e40af">Dark Blue</SelectItem>
+                              <SelectItem value="#3b82f6">Light Blue</SelectItem>
+                              <SelectItem value="#10b981">Green</SelectItem>
+                              <SelectItem value="#f59e0b">Orange</SelectItem>
+                              <SelectItem value="#ef4444">Red</SelectItem>
+                              <SelectItem value="#8b5cf6">Purple</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="tabHoverBorderColor"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Tab Hover Border Color</FormLabel>
+                          <Select onValueChange={field.onChange} value={field.value || "#2563eb"}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select hover border color" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="transparent">Transparent</SelectItem>
+                              <SelectItem value="#ffffff">White</SelectItem>
+                              <SelectItem value="#f8fafc">Off White</SelectItem>
+                              <SelectItem value="#e2e8f0">Light Gray</SelectItem>
+                              <SelectItem value="#94a3b8">Medium Gray</SelectItem>
+                              <SelectItem value="#64748b">Dark Gray</SelectItem>
+                              <SelectItem value="#475569">Darker Gray</SelectItem>
+                              <SelectItem value="#334155">Very Dark Gray</SelectItem>
+                              <SelectItem value="#1e293b">Almost Black</SelectItem>
+                              <SelectItem value="#000000">Black</SelectItem>
+                              <SelectItem value="#2563eb">Blue</SelectItem>
+                              <SelectItem value="#1e40af">Dark Blue</SelectItem>
+                              <SelectItem value="#3b82f6">Light Blue</SelectItem>
+                              <SelectItem value="#10b981">Green</SelectItem>
+                              <SelectItem value="#f59e0b">Orange</SelectItem>
+                              <SelectItem value="#ef4444">Red</SelectItem>
+                              <SelectItem value="#8b5cf6">Purple</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Configure border colors for navigation tabs. Border color is the normal state, hover border color appears when users hover over tabs.
+                  </p>
                 </div>
               </TabsContent>
 

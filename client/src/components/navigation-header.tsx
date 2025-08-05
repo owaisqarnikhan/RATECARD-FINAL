@@ -84,16 +84,29 @@ export function NavigationHeader() {
           <Button
             key={item.href}
             variant="ghost"
-            className={`${mobile ? 'justify-start w-full' : ''} transition-colors duration-200 font-medium`}
+            className={`${mobile ? 'justify-start w-full border-l-2 border-b-0' : 'border-b-2'} transition-all duration-200 font-medium rounded-none`}
             style={{ 
               color: siteSettings?.headerTextColor || '#64748b',
-              '--hover-color': siteSettings?.tabTextColor || '#2563eb'
-            } as React.CSSProperties & { '--hover-color': string }}
+              borderBottomColor: mobile ? 'transparent' : (siteSettings?.tabBorderColor || '#e2e8f0'),
+              borderLeftColor: mobile ? (siteSettings?.tabBorderColor || '#e2e8f0') : 'transparent',
+              '--hover-color': siteSettings?.tabTextColor || '#2563eb',
+              '--hover-border-color': siteSettings?.tabHoverBorderColor || '#2563eb'
+            } as React.CSSProperties & { '--hover-color': string; '--hover-border-color': string }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = siteSettings?.tabTextColor || '#2563eb';
+              if (mobile) {
+                e.currentTarget.style.borderLeftColor = siteSettings?.tabHoverBorderColor || '#2563eb';
+              } else {
+                e.currentTarget.style.borderBottomColor = siteSettings?.tabHoverBorderColor || '#2563eb';
+              }
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = siteSettings?.headerTextColor || '#64748b';
+              if (mobile) {
+                e.currentTarget.style.borderLeftColor = siteSettings?.tabBorderColor || '#e2e8f0';
+              } else {
+                e.currentTarget.style.borderBottomColor = siteSettings?.tabBorderColor || '#e2e8f0';
+              }
             }}
             onClick={() => {
               setLocation(item.href);
