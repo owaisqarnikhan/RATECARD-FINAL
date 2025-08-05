@@ -90,11 +90,16 @@ export default function CheckoutPage() {
     );
   }
 
-  const subtotal = cartItems.reduce((total, item) => {
-    // Use calculated total price from cart item if available, otherwise fallback to product price
-    const itemTotal = item.totalPrice ? parseFloat(item.totalPrice) : (parseFloat(item.product.price) * item.quantity);
+  const subtotal = cartItems?.reduce((total, item) => {
+    // Use calculated total price from cart item if available, otherwise calculate from appropriate price
+    const itemTotal = item.totalPrice ? parseFloat(item.totalPrice) : (() => {
+      const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+        ? item.product.rentalPrice 
+        : item.product.price;
+      return parseFloat(displayPrice) * item.quantity;
+    })();
     return total + itemTotal;
-  }, 0);
+  }, 0) || 0;
 
   const tax = subtotal * 0.10;
   const total = subtotal + tax;
@@ -233,10 +238,20 @@ export default function CheckoutPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {cartItems.map((item) => {
-                    // Use calculated total price from cart item if available, otherwise fallback to product price
-                    const itemTotal = item.totalPrice ? parseFloat(item.totalPrice) : (parseFloat(item.product.price) * item.quantity);
-                    const unitPrice = item.unitPrice ? parseFloat(item.unitPrice) : parseFloat(item.product.price);
+                  {cartItems?.map((item) => {
+                    // Use calculated total price from cart item if available, otherwise calculate from appropriate price
+                    const itemTotal = item.totalPrice ? parseFloat(item.totalPrice) : (() => {
+                      const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+                        ? item.product.rentalPrice 
+                        : item.product.price;
+                      return parseFloat(displayPrice) * item.quantity;
+                    })();
+                    const unitPrice = item.unitPrice ? parseFloat(item.unitPrice) : (() => {
+                      const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+                        ? item.product.rentalPrice 
+                        : item.product.price;
+                      return parseFloat(displayPrice);
+                    })();
                     
                     return (
                       <div key={item.id} className="flex justify-between items-center py-2 border-b border-slate-200">

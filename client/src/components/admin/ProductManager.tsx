@@ -20,13 +20,10 @@ import { createImageUploadHandler } from "@/lib/imageUpload";
 // Enhanced product schema with product type and proper number validation
 const enhancedProductSchema = insertProductSchema.extend({
   productType: z.enum(["sale", "rental"]).default("sale"),
-  rentalPeriod: z.string().optional(),
-  rentalPrice: z.string().optional(),
 }).transform((data) => ({
   ...data,
   // Convert string prices to numbers, handling empty strings
   price: data.price === "" ? "0" : data.price,
-  rentalPrice: data.rentalPrice === "" ? undefined : data.rentalPrice,
 }));
 
 type EnhancedInsertProduct = z.infer<typeof enhancedProductSchema>;
@@ -62,8 +59,6 @@ export function ProductManager() {
       isActive: true,
       isFeatured: false,
       productType: "sale",
-      rentalPeriod: "",
-      rentalPrice: "",
     },
   });
 
@@ -80,7 +75,6 @@ export function ProductManager() {
       const cleanData = {
         ...data,
         price: data.price || "0",
-        rentalPrice: data.rentalPrice || undefined,
       };
       const response = await apiRequest("/api/products", "POST", cleanData);
       return response.json();
@@ -109,7 +103,6 @@ export function ProductManager() {
       const cleanData = {
         ...data,
         price: data.price || "0",
-        rentalPrice: data.rentalPrice || undefined,
       };
       const response = await apiRequest(`/api/products/${id}`, "PUT", cleanData);
       return response.json();
@@ -176,8 +169,6 @@ export function ProductManager() {
       isActive: product.isActive,
       isFeatured: product.isFeatured,
       productType: (product as any).productType || "sale",
-      rentalPeriod: (product as any).rentalPeriod || "",
-      rentalPrice: (product as any).rentalPrice || "",
     });
   };
 
@@ -319,7 +310,9 @@ export function ProductManager() {
                       name="price"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Price</FormLabel>
+                          <FormLabel>
+                            {productType === "rental" ? "Rental Price" : "Sale Price"}
+                          </FormLabel>
                           <FormControl>
                             <Input type="number" step="0.01" placeholder="0.00" {...field} />
                           </FormControl>
@@ -353,45 +346,7 @@ export function ProductManager() {
                     />
                   </div>
 
-                  {productType === "rental" && (
-                    <div className="grid grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="rentalPeriod"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Rental Period</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value || ""}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select rental period" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="daily">Daily</SelectItem>
-                                <SelectItem value="weekly">Weekly</SelectItem>
-                                <SelectItem value="monthly">Monthly</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="rentalPrice"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Rental Price</FormLabel>
-                            <FormControl>
-                              <Input type="number" step="0.01" placeholder="0.00" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  )}
+
 
                   <FormField
                     control={form.control}

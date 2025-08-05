@@ -58,8 +58,13 @@ export default function CartPage() {
 
   const subtotal = cartItems?.reduce(
     (sum, item) => {
-      // Use totalPrice from cart item if available (for rentals), otherwise calculate from product price
-      const itemTotal = item.totalPrice ? parseFloat(item.totalPrice) : parseFloat(item.product.price) * item.quantity;
+      // Use totalPrice from cart item if available (for rentals), otherwise calculate from appropriate price
+      const itemTotal = item.totalPrice ? parseFloat(item.totalPrice) : (() => {
+        const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+          ? item.product.rentalPrice 
+          : item.product.price;
+        return parseFloat(displayPrice) * item.quantity;
+      })();
       return sum + itemTotal;
     },
     0
@@ -156,7 +161,12 @@ export default function CartPage() {
                   
                   <div className="mt-2 flex items-center space-x-4">
                     <span className="text-primary font-semibold">
-                      {item.totalPrice ? `Total: $${parseFloat(item.totalPrice).toFixed(2)}` : `$${item.product.price}`}
+                      {item.totalPrice ? `Total: $${parseFloat(item.totalPrice).toFixed(2)}` : 
+                        `$${parseFloat(
+                          item.product.productType === "rental" && item.product.rentalPrice 
+                            ? item.product.rentalPrice 
+                            : item.product.price
+                        ).toFixed(2)}`}
                     </span>
                     
                     {/* Only show quantity controls for sale products, not rentals */}
@@ -211,7 +221,12 @@ export default function CartPage() {
                 
                 <div className="flex items-center space-x-4">
                   <span className="text-lg font-bold text-slate-900">
-                    ${item.totalPrice ? parseFloat(item.totalPrice).toFixed(2) : (parseFloat(item.product.price) * item.quantity).toFixed(2)}
+                    ${item.totalPrice ? parseFloat(item.totalPrice).toFixed(2) : (() => {
+                      const displayPrice = item.product.productType === "rental" && item.product.rentalPrice 
+                        ? item.product.rentalPrice 
+                        : item.product.price;
+                      return (parseFloat(displayPrice) * item.quantity).toFixed(2);
+                    })()}
                   </span>
                   <Button
                     size="sm"

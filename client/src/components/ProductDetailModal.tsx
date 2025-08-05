@@ -87,12 +87,17 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
 
   // Calculate rental days and total cost
   const calculateRentalCost = (): { days: number; totalCost: number; dailyRate: number } => {
-    if (!startDate || !endDate || !product?.rentalPrice) {
+    // Get the appropriate price for rental calculation
+    const rentalPrice = product?.productType === "rental" && product?.rentalPrice 
+      ? product.rentalPrice 
+      : product?.price;
+    
+    if (!startDate || !endDate || !rentalPrice) {
       return { days: 0, totalCost: 0, dailyRate: 0 };
     }
     
     const days = differenceInDays(endDate, startDate) + 1; // Include both start and end dates
-    const dailyRate = parseFloat(product.rentalPrice);
+    const dailyRate = parseFloat(rentalPrice);
     const totalCost = days * dailyRate * quantity;
     
     return { days, totalCost, dailyRate };
@@ -300,21 +305,22 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
               <CardContent className="p-4">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-semibold text-gray-700">Sale Price:</span>
-                    <span className="text-2xl font-bold text-primary">${product.price}</span>
-                  </div>
-                  
-                  {product.productType === "rental" && product.rentalPrice && (
-                    <div className="flex items-center justify-between border-t pt-3">
-                      <span className="text-lg font-semibold text-gray-700">Rental Price:</span>
-                      <div className="text-right">
-                        <span className="text-xl font-bold text-blue-600">${product.rentalPrice}</span>
-                        {product.rentalPeriod && (
-                          <p className="text-sm text-gray-600">per {product.rentalPeriod}</p>
-                        )}
-                      </div>
+                    <span className="text-lg font-semibold text-gray-700">
+                      {product.productType === "rental" ? "Rental Price:" : "Sale Price:"}
+                    </span>
+                    <div className="text-right">
+                      <span className="text-2xl font-bold text-primary">
+                        ${parseFloat(
+                          product.productType === "rental" && product.rentalPrice 
+                            ? product.rentalPrice 
+                            : product.price
+                        ).toFixed(2)}
+                      </span>
+                      {product.productType === "rental" && product.rentalPeriod && (
+                        <p className="text-sm text-gray-600">per {product.rentalPeriod}</p>
+                      )}
                     </div>
-                  )}
+                  </div>
                   
                   {/* VAT Notice */}
                   <div className="bg-blue-50 p-3 rounded text-sm text-blue-800">
@@ -524,7 +530,10 @@ export function ProductDetailModal({ product, isOpen, onClose }: ProductDetailMo
                           if (product.productType === "rental" && startDate && endDate && !dateError) {
                             return calculateRentalCost().totalCost.toFixed(2);
                           }
-                          return (parseFloat(product.price) * quantity).toFixed(2);
+                          const displayPrice = product.productType === "rental" && product.rentalPrice 
+                            ? product.rentalPrice 
+                            : product.price;
+                          return (parseFloat(displayPrice) * quantity).toFixed(2);
                         })()}
                       </span>
                       <Button 

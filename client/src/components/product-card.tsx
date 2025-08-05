@@ -148,7 +148,16 @@ export function ProductCard({ product, onViewDetails, onCardClick, showDetailsBu
           
           <div className="flex items-center justify-between mb-4">
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              ${parseFloat(product.price).toFixed(2)}
+              ${parseFloat(
+                product.productType === "rental" && product.rentalPrice 
+                  ? product.rentalPrice 
+                  : product.price
+              ).toFixed(2)}
+              {product.productType === "rental" && product.rentalPeriod && (
+                <span className="text-sm text-slate-600 font-normal ml-1">
+                  /{product.rentalPeriod}
+                </span>
+              )}
             </span>
             
             {rating > 0 && (
