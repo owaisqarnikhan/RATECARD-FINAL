@@ -557,8 +557,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             orderNumber: order.id.slice(-8).toUpperCase(),
             customerName: customerName,
             customerEmail: user.email,
-            total: order.total,
-            shippingAddress: "", // Add missing required field
+            total: parseFloat(order.total),
+            shippingAddress: customerInfo?.address || "", // Add missing required field
             items: cartItems.map(item => ({
               productName: item.product.name,
               quantity: item.quantity,
@@ -603,7 +603,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await sendOrderSubmissionEmail(req.user!.email, {
             orderNumber: order.id.slice(-8).toUpperCase(),
             customerName: customerName,
-            total: order.total,
+            total: parseFloat(order.total),
             items: emailItems
           });
         } catch (emailError) {

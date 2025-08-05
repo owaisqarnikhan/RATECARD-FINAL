@@ -33,14 +33,25 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "your-fallback-secret-key-for-development-only-please-change-in-production",
     resave: false,
     saveUninitialized: false,
     store: storage.sessionStore,
+    cookie: {
+      secure: isProduction, // Use secure cookies in production
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: isProduction ? 'none' : 'lax', // Allow cross-origin in production for deployment
+    },
+    name: 'bayg.session', // Custom session name
   };
 
-  app.set("trust proxy", 1);
+  if (isProduction) {
+    app.set("trust proxy", 1);
+  }
   app.use(session(sessionSettings));
   app.use(passport.initialize());
   app.use(passport.session());
@@ -68,6 +79,11 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", passport.authenticate("local"), (req, res) => {
+    console.log('Login successful:', {
+      user: req.user ? { id: req.user.id, username: req.user.username } : null,
+      sessionID: req.sessionID,
+      isAuthenticated: req.isAuthenticated()
+    });
     res.status(200).json(req.user);
   });
 
