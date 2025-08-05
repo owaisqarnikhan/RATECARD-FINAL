@@ -33,10 +33,12 @@ function DynamicTitleUpdater() {
   });
 
   useEffect(() => {
-    if (settings?.siteName) {
+    if (settings?.browserTabTitle) {
+      document.title = settings.browserTabTitle;
+    } else if (settings?.siteName) {
       document.title = settings.siteName;
     }
-  }, [settings?.siteName]);
+  }, [settings?.browserTabTitle, settings?.siteName]);
 
   return null;
 }

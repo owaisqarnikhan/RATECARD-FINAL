@@ -34,6 +34,7 @@ export function SiteSettings() {
     resolver: zodResolver(insertSiteSettingsSchema),
     defaultValues: {
       siteName: settings?.siteName || "BAYG",
+      browserTabTitle: settings?.browserTabTitle || "BAYG",
       logoUrl: settings?.logoUrl || "",
       faviconUrl: settings?.faviconUrl || "",
       contactEmail: settings?.contactEmail || "",
@@ -509,15 +510,32 @@ export function SiteSettings() {
                   name="siteName"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>Site Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="BAYG" {...field} />
+                      </FormControl>
+                      <div className="text-sm text-muted-foreground">
+                        This appears as the site name throughout the application
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="browserTabTitle"
+                  render={({ field }) => (
+                    <FormItem>
                       <FormLabel className="flex items-center gap-2">
                         <Monitor className="h-4 w-4" />
-                        Site Name & Browser Tab Title
+                        Browser Tab Title
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="BAYG" {...field} />
                       </FormControl>
                       <div className="text-sm text-muted-foreground">
-                        This will appear as the browser tab title and site name throughout the application
+                        This appears as the browser tab title
                       </div>
                       <FormMessage />
                     </FormItem>

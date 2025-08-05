@@ -330,7 +330,8 @@ export type InsertOrderItem = z.infer<typeof insertOrderItemSchema>;
 
 export const siteSettings = pgTable("site_settings", {
   id: varchar("id").primaryKey().default("default"),
-  siteName: text("site_name").notNull().default("InnovanceOrbit"),
+  siteName: text("site_name").notNull().default("BAYG"),
+  browserTabTitle: text("browser_tab_title").notNull().default("BAYG"),
   headerLogo: text("header_logo"),
   footerLogo: text("footer_logo"),
   logoUrl: text("logo_url"), // Main site logo
