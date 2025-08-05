@@ -108,6 +108,8 @@ export function SiteSettings() {
         headerTextColor: settings.headerTextColor || "#64748b",
         tabTextColor: settings.tabTextColor || "#2563eb",
         tabActiveTextColor: settings.tabActiveTextColor || "#2563eb",
+        tabBorderColor: settings.tabBorderColor || "#e2e8f0",
+        tabHoverBorderColor: settings.tabHoverBorderColor || "#2563eb",
         orderConfirmationTemplate: settings.orderConfirmationTemplate || "",
         footerDescription: settings.footerDescription || "",
         footerBackgroundUrl: settings.footerBackgroundUrl || "/uploads/footer-background.png",
@@ -146,6 +148,8 @@ export function SiteSettings() {
           headerTextColor: settings.headerTextColor || undefined,
           tabTextColor: settings.tabTextColor || undefined,
           tabActiveTextColor: settings.tabActiveTextColor || undefined,
+          tabBorderColor: settings.tabBorderColor || undefined,
+          tabHoverBorderColor: settings.tabHoverBorderColor || undefined,
         });
       }
     }
@@ -165,6 +169,8 @@ export function SiteSettings() {
           headerTextColor: variables.headerTextColor || undefined,
           tabTextColor: variables.tabTextColor || undefined,
           tabActiveTextColor: variables.tabActiveTextColor || undefined,
+          tabBorderColor: variables.tabBorderColor || undefined,
+          tabHoverBorderColor: variables.tabHoverBorderColor || undefined,
         });
       }
       
@@ -531,6 +537,8 @@ export function SiteSettings() {
                               headerTextColor: form.getValues("headerTextColor") || "#ffffff",
                               tabTextColor: form.getValues("tabTextColor") || "#64748b", 
                               tabActiveTextColor: form.getValues("tabActiveTextColor") || "#2563eb",
+                              tabBorderColor: form.getValues("tabBorderColor") || "#e2e8f0",
+                              tabHoverBorderColor: form.getValues("tabHoverBorderColor") || "#2563eb",
                             });
                           }
                         }} 

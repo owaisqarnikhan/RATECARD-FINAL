@@ -264,6 +264,8 @@ export function applyTheme(themeName: ThemeName, customColors?: {
   headerTextColor?: string;
   tabTextColor?: string;
   tabActiveTextColor?: string;
+  tabBorderColor?: string;
+  tabHoverBorderColor?: string;
 }) {
   const theme = themes[themeName];
   if (!theme) return;
@@ -291,5 +293,11 @@ export function applyTheme(themeName: ThemeName, customColors?: {
   }
   if (customColors?.tabActiveTextColor) {
     root.style.setProperty('--theme-tab-active-text', customColors.tabActiveTextColor);
+  }
+  if (customColors?.tabBorderColor) {
+    root.style.setProperty('--theme-tab-border', customColors.tabBorderColor);
+  }
+  if (customColors?.tabHoverBorderColor) {
+    root.style.setProperty('--theme-tab-hover-border', customColors.tabHoverBorderColor);
   }
 }
