@@ -84,7 +84,7 @@ export function NavigationHeader() {
           <Button
             key={item.href}
             variant="ghost"
-            className={`${mobile ? 'justify-start w-full' : ''} transition-all duration-200 font-medium rounded-none`}
+            className={`${mobile ? 'justify-start w-full' : ''} transition-colors duration-200 font-medium rounded-none hover:bg-transparent`}
             style={{ 
               color: siteSettings?.headerTextColor || '#64748b'
             }}
