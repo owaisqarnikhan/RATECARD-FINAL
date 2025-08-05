@@ -44,13 +44,19 @@ import * as crypto from "crypto";
 
 const PostgresSessionStore = connectPg(session);
 
-// Use memory store for sessions to avoid DB conflicts
+// Use PostgreSQL session store for production deployment
 import MemoryStore from 'memorystore';
 const MemStore = MemoryStore(session);
 
-const sessionStore = new MemStore({
-  checkPeriod: 86400000 // prune expired entries every 24h
-});
+const sessionStore = process.env.NODE_ENV === 'production' 
+  ? new PostgresSessionStore({
+      pool: pool,
+      tableName: 'session',
+      createTableIfMissing: true,
+    })
+  : new MemStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    });
 
 export interface IStorage {
   // User methods

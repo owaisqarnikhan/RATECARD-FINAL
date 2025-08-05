@@ -4,7 +4,15 @@ import { userHasPermission } from './seed-permissions';
 // Middleware to check if user has specific permission
 export function requirePermission(permission: string) {
   return async (req: Request, res: Response, next: NextFunction) => {
+    console.log(`Permission check for ${permission}:`, {
+      isAuthenticated: req.isAuthenticated(),
+      user: req.user ? { id: req.user.id, username: req.user.username, role: req.user.role } : null,
+      sessionID: req.sessionID,
+      cookies: req.headers.cookie ? 'present' : 'missing'
+    });
+    
     if (!req.isAuthenticated() || !req.user) {
+      console.log('Authentication failed - no user or not authenticated');
       return res.status(401).json({ message: "Authentication required" });
     }
 

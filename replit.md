@@ -99,6 +99,7 @@ Preferred communication style: Simple, everyday language.
 - **Type Safety**: Comprehensive TypeScript configuration with strict mode enabled
 
 ## Recent Changes (August 2025)
+- **Production Authentication Fix**: Addressed 401 Unauthorized error in production deployment by implementing comprehensive session debugging and switching to PostgreSQL session store for production with proper cookie configuration (August 5, 2025)
 - **Project Migration**: Successfully migrated from Replit Agent to standard Replit environment (August 5, 2025)
 - **Database Setup**: Configured PostgreSQL database with comprehensive schema push
 - **User Account Creation**: Created diverse test user accounts including superadmin, managers, and customers

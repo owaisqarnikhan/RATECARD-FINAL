@@ -41,10 +41,10 @@ export function setupAuth(app: Express) {
     saveUninitialized: false,
     store: storage.sessionStore,
     cookie: {
-      secure: isProduction, // Use secure cookies in production
+      secure: false, // Disable secure for now to test deployment
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      sameSite: isProduction ? 'none' : 'lax', // Allow cross-origin in production for deployment
+      sameSite: 'lax', // Use lax for deployment compatibility
     },
     name: 'bayg.session', // Custom session name
   };
