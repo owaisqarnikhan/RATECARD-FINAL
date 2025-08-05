@@ -256,10 +256,6 @@ export default function CartPage() {
                 <span className="font-medium">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-slate-600">
-                <span>Shipping:</span>
-                <span className="font-medium">Free</span>
-              </div>
-              <div className="flex justify-between text-slate-600">
                 <span>VAT (10%):</span>
                 <span className="font-medium">${tax.toFixed(2)}</span>
               </div>
