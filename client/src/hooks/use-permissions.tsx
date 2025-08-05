@@ -15,6 +15,7 @@ export function usePermissions() {
     queryFn: getQueryFn({ on401: "returnNull" }),
     staleTime: 0, // Always refetch permissions to ensure fresh data
     refetchOnMount: true, // Refetch on component mount
+    refetchOnWindowFocus: true, // Refetch when window gains focus
   });
 
   const permissions = data?.permissions || [];
